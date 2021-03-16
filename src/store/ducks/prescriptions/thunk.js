@@ -144,6 +144,32 @@ export const fetchScreeningThunk = idPrescription => async (dispatch, getState) 
   dispatch(prescriptionsFetchSingleSuccess(singlePrescriptionAddedPatientName));
 };
 
+/**
+ * Fetch data for Screening page (WhiteLabel).
+ * @param {number} idPrescription
+ */
+export const wlFetchScreeningThunk = idPrescription => async dispatch => {
+  dispatch(prescriptionsFetchSingleStart());
+
+  const {
+    data: { data },
+    error
+  } = await api.wlGetPrescriptionById(null, idPrescription).catch(errorHandler);
+  if (!isEmpty(error)) {
+    dispatch(prescriptionsFetchSingleError(error));
+    return;
+  }
+
+  const singlePrescription = transformPrescription(data);
+
+  const singlePrescriptionAddedPatientName = {
+    ...singlePrescription,
+    namePatient: 'Paciente'
+  };
+
+  dispatch(prescriptionsFetchSingleSuccess(singlePrescriptionAddedPatientName));
+};
+
 export const checkScreeningThunk = (idPrescription, status) => async (dispatch, getState) => {
   dispatch(prescriptionsCheckStart(idPrescription));
 

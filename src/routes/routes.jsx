@@ -20,6 +20,7 @@ import KnowledgeBase from '@pages/KnowledgeBase';
 import KnowledgeBaseArticle from '@pages/KnowledgeBase/Article';
 import UserConfig from '@pages/UserConfig';
 import Password from '@pages/Password';
+import WhiteLabel from '@pages/WhiteLabel';
 
 const routes = [
   {
@@ -83,6 +84,11 @@ const routes = [
     component: withAuth({
       component: Screening
     })
+  },
+  {
+    exact: true,
+    path: '/wl/prescricao/:id',
+    component: WhiteLabel
   },
   {
     exact: true,

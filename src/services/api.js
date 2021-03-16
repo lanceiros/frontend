@@ -126,6 +126,11 @@ const getPrescriptionById = (bearerToken, idPrescription, params = {}) =>
     ...setHeaders(bearerToken)
   });
 
+const wlGetPrescriptionById = (bearerToken, idPrescription) =>
+  instance.get(`${endpoints.prescriptions}/static/${idPrescription}`, {
+    ...setHeaders(bearerToken)
+  });
+
 const getPrescriptionDrugPeriod = (bearerToken, idPrescriptionDrug, params = {}) =>
   instance.get(`${endpoints.prescriptions}/drug/${idPrescriptionDrug}/period`, {
     params,
@@ -353,6 +358,7 @@ const api = {
   updateSegment,
   getPrescriptions,
   getPrescriptionById,
+  wlGetPrescriptionById,
   getPrescriptionDrugPeriod,
   putPrescriptionById,
   getResolveNamesUrl,
