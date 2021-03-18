@@ -133,6 +133,7 @@ const Action = ({
   uniqueDrugList,
   admissionNumber,
   emptyRow,
+  t,
   ...data
 }) => {
   if (emptyRow) return null;
@@ -146,7 +147,7 @@ const Action = ({
   const isIntervened = data.intervened;
   const hasNotes =
     (data.notes !== '' && data.notes != null) || (data.prevNotes && data.prevNotes !== 'None');
-  let btnTitle = isChecked ? 'Alterar intervenção' : 'Enviar intervenção';
+  let btnTitle = isChecked ? t('actions.updateIntervention') : t('actions.addIntervention');
 
   if (isIntervened && !isChecked) {
     btnTitle = 'Enviar intervenção (novamente)';
@@ -172,7 +173,7 @@ const Action = ({
         </Button>
       </Tooltip>
 
-      <Tooltip title={hasNotes ? 'Alterar anotação' : 'Adicionar anotação'} placement="left">
+      <Tooltip title={hasNotes ? t('actions.updateNotes') : t('actions.addNotes')} placement="left">
         <Button
           type="primary gtm-bt-notes"
           ghost={!hasNotes}
@@ -255,26 +256,26 @@ const periodDatesList = dates => {
   );
 };
 
-const DrugTags = ({ drug }) => (
+const DrugTags = ({ drug, t }) => (
   <span style={{ marginLeft: '10px' }}>
     {drug.np && (
-      <Tooltip title="Não padronizado">
-        <Tag>NP</Tag>
+      <Tooltip title={t('drugTagsDescription.np')}>
+        <Tag>{t('drugTags.np')}</Tag>
       </Tooltip>
     )}
     {drug.am && (
-      <Tooltip title="Antimicrobianos">
-        <Tag color="green">AM</Tag>
+      <Tooltip title={t('drugTagsDescription.am')}>
+        <Tag color="green">{t('drugTags.am')}</Tag>
       </Tooltip>
     )}
     {drug.av && (
-      <Tooltip title="Alta vigilância">
-        <Tag color="red">AV</Tag>
+      <Tooltip title={t('drugTagsDescription.av')}>
+        <Tag color="red">{t('drugTags.av')}</Tag>
       </Tooltip>
     )}
     {drug.c && (
-      <Tooltip title="Controlado">
-        <Tag color="orange">C</Tag>
+      <Tooltip title={t('drugTagsDescription.c')}>
+        <Tag color="orange">{t('drugTags.c')}</Tag>
       </Tooltip>
     )}
   </span>
@@ -384,7 +385,7 @@ export const expandedRowRender = bag => record => {
 
 const flags = ['green', 'yellow', 'orange', 'red', 'red'];
 
-const drugInfo = bag => [
+const drugInfo = (bag, t) => [
   {
     key: 'idPrescriptionDrug',
     dataIndex: 'score',
@@ -403,7 +404,7 @@ const drugInfo = bag => [
     }
   },
   {
-    title: 'Medicamento',
+    title: t('tableHeader.drug'),
     align: 'left',
     render: record => {
       if (record.total) {
@@ -431,13 +432,13 @@ const drugInfo = bag => [
               {record.drug}
             </TableLink>
           </Tooltip>
-          <DrugTags drug={record} />
+          <DrugTags drug={record} t={t} />
         </>
       );
     }
   },
   {
-    title: <Tooltip title="Período de uso">Período</Tooltip>,
+    title: <Tooltip title="Período de uso">{t('tableHeader.period')}</Tooltip>,
     width: 70,
     render: record => {
       if (record.total) {
@@ -464,7 +465,7 @@ const drugInfo = bag => [
     }
   },
   {
-    title: 'Dose',
+    title: t('tableHeader.dose'),
     dataIndex: 'dosage',
     width: 130,
     render: (text, prescription) => {
@@ -494,9 +495,9 @@ const drugInfo = bag => [
   }
 ];
 
-const frequencyAndTime = [
+const frequencyAndTime = t => [
   {
-    title: 'Frequência',
+    title: t('tableHeader.frequency'),
     dataIndex: 'frequency',
     width: 150,
     render: (text, prescription) => {
@@ -521,7 +522,7 @@ const frequencyAndTime = [
     }
   },
   {
-    title: 'Horários',
+    title: t('tableHeader.time'),
     dataIndex: 'time',
     width: 100
   }
@@ -540,9 +541,9 @@ const stageAndInfusion = [
   }
 ];
 
-const actionColumns = bag => [
+const actionColumns = (bag, t) => [
   {
-    title: 'Via',
+    title: t('tableHeader.route'),
     dataIndex: 'route',
     width: 85
   },
@@ -554,47 +555,47 @@ const actionColumns = bag => [
       <TableTags>
         <span className="tag gtm-tag-check" onClick={() => bag.handleRowExpand(prescription)}>
           {prescription.checked && (
-            <Tooltip title="Checado anteriormente">
+            <Tooltip title={t('tags.checked')}>
               <Icon type="check" style={{ fontSize: 18, color: '#52c41a' }} />
             </Tooltip>
           )}
         </span>
         <span className="tag gtm-tag-msg" onClick={() => bag.handleRowExpand(prescription)}>
           {prescription.recommendation && prescription.recommendation !== 'None' && (
-            <Tooltip title="Possui observação médica">
+            <Tooltip title={t('tags.recommendation')}>
               <Icon type="message" style={{ fontSize: 18, color: '#108ee9' }} />
             </Tooltip>
           )}
         </span>
         <span className="tag gtm-ico-form" onClick={() => bag.handleRowExpand(prescription)}>
           {prescription.prevNotes && prescription.prevNotes !== 'None' && (
-            <Tooltip title="Possui anotação">
+            <Tooltip title={t('tags.prevNotes')}>
               <Icon type="form" style={{ fontSize: 18, color: '#108ee9' }} />
             </Tooltip>
           )}
         </span>
         <span className="tag gtm-tag-warn" onClick={() => bag.handleRowExpand(prescription)}>
           {!isEmpty(prescription.prevIntervention) && (
-            <Tooltip title="Possui intervenção anterior">
+            <Tooltip title={t('tags.prevIntervention')}>
               <Icon type="warning" style={{ fontSize: 18, color: '#fa8c16' }} />
             </Tooltip>
           )}
           {isEmpty(prescription.prevIntervention) && prescription.existIntervention && (
-            <Tooltip title="Possui intervenção anterior já resolvida">
+            <Tooltip title={t('tags.prevNotesSolved')}>
               <Icon type="warning" style={{ fontSize: 18, color: 'gray' }} />
             </Tooltip>
           )}
         </span>
         <span className="tag gtm-tag-stop" onClick={() => bag.handleRowExpand(prescription)}>
           {prescription.suspended && (
-            <Tooltip title="Suspenso">
+            <Tooltip title={t('tags.suspended')}>
               <Icon type="stop" style={{ fontSize: 18, color: '#f5222d' }} />
             </Tooltip>
           )}
         </span>
         <span className="tag gtm-tag-alert" onClick={() => bag.handleRowExpand(prescription)}>
           {!isEmpty(prescription.alerts) && (
-            <Tooltip title="Alertas">
+            <Tooltip title={t('tags.alerts')}>
               <Tag color="red" style={{ marginLeft: '2px' }}>
                 {prescription.alerts.length}
               </Tag>
@@ -605,10 +606,10 @@ const actionColumns = bag => [
     )
   },
   {
-    title: 'Ações',
+    title: t('tableHeader.action'),
     dataIndex: 'intervention',
     width: 110,
-    render: (text, prescription) => <Action {...prescription} {...bag} />
+    render: (text, prescription) => <Action {...prescription} {...bag} t={t} />
   }
 ];
 
@@ -617,14 +618,14 @@ export const isPendingValidation = record =>
   !isEmpty(record.prevIntervention) ||
   !isEmpty(record.prevNotes);
 
-export const solutionColumns = bag => [
-  ...drugInfo(bag),
+export const solutionColumns = (bag, t) => [
+  ...drugInfo(bag, t),
   ...stageAndInfusion,
-  ...actionColumns(bag)
+  ...actionColumns(bag, t)
 ];
 
-export default (filteredInfo, bag) => {
-  const columns = [...drugInfo(bag), ...frequencyAndTime, ...actionColumns(bag)];
+export default (filteredInfo, bag, t) => {
+  const columns = [...drugInfo(bag, t), ...frequencyAndTime(t), ...actionColumns(bag, t)];
 
   columns[0] = {
     ...columns[0],

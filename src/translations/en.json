@@ -39,5 +39,41 @@
     "patientRisk": "Patient risk",
     "prescriptionRisk": "Prescription risk",
     "actions": "Actions"
+  },
+  "tableHeader": {
+    "drug": "Drug",
+    "period": "Period",
+    "dose": "Dose",
+    "frequency": "Frequency",
+    "time": "Time",
+    "route": "Route",
+    "action": "Action"
+  },
+  "tags": {
+    "checked": "Checked previously",
+    "recommendation": "Has medical observation",
+    "prevNotes": "Has notes",
+    "prevIntervention": "Has previous intervention",
+    "prevInterventionSolved": "Has previous intervention (resolved)",
+    "suspended": "Suspended",
+    "alerts": "Alerts"
+  },
+  "drugTagsDescription": {
+    "np": "Non-standard",
+    "am": "Antimicrobials",
+    "av": "High surveillance",
+    "c": "Controlled"
+  },
+  "drugTags": {
+    "np": "NS",
+    "am": "AM",
+    "av": "HS",
+    "c": "C"
+  },
+  "actions": {
+    "addIntervention": "Add intervention",
+    "updateIntervention": "Edit intervention",
+    "addNotes": "Add notes",
+    "updateNotes": "Edit notes"
   }
 }

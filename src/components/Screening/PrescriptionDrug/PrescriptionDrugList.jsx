@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import isEmpty from 'lodash.isempty';
 import { format, parseISO } from 'date-fns';
+import { useTranslation } from 'react-i18next';
 
 import Icon from '@components/Icon';
 import LoadBox from '@components/LoadBox';
@@ -79,6 +80,7 @@ export default function PrescriptionDrugList({
   selectPrescriptionDrug,
   uniqueDrugs
 }) {
+  const { t } = useTranslation();
   const [visible, setVisibility] = useState(false);
   const [openPrescriptionDrugModal, setOpenPrescriptionDrugModal] = useState(false);
   const [expandedRows, setExpandedRows] = useState([]);
@@ -175,8 +177,8 @@ export default function PrescriptionDrugList({
     <ExpandableTable
       columns={
         listType === 'solution'
-          ? solutionColumns(bag)
-          : columnsTable(hasFilter ? filter : { status: null }, bag)
+          ? solutionColumns(bag, t)
+          : columnsTable(hasFilter ? filter : { status: null }, bag, t)
       }
       pagination={false}
       loading={isFetching}
