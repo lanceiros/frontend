@@ -10,7 +10,7 @@ import { Creators as AppCreators } from '../app';
 
 const { sessionSetFirstAccess } = SessionCreators;
 const { userLogout, userSetLoginStart, userSetCurrentUser } = UserCreators;
-const { authSetErrorIdentify, authSetIdentify, authDelIdentify } = AuthCreators;
+const { authSetErrorIdentify, authSetIdentify, authSetWlIdentify, authDelIdentify } = AuthCreators;
 const { appSetConfig } = AppCreators;
 
 export const loginThunk = ({ keepMeLogged, ...userIndentify }) => async dispatch => {
@@ -48,4 +48,19 @@ export const logoutThunk = () => {
     dispatch(userLogout());
     dispatch(authDelIdentify());
   };
+};
+
+export const wlLoginThunk = accessToken => async dispatch => {
+  // TODO: get data from endpoint and validate access_token
+  const user = {
+    userId: 0,
+    userName: 'WL User',
+    roles: [],
+    nameUrl: 'http://localhost/{idPatient}',
+    apiKey: '000'
+  };
+
+  dispatch(authSetWlIdentify({ access_token: accessToken }));
+  dispatch(userSetCurrentUser(user, false));
+  dispatch(appSetConfig({ nameUrl: user.nameUrl, apiKey: user.apiKey }));
 };

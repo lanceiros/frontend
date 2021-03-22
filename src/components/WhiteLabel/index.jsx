@@ -3,10 +3,14 @@ import { useTranslation } from 'react-i18next';
 
 import PrescriptionList from '@containers/Screening/PrescriptionDrug/PrescriptionList';
 
-export default function WhiteLabel({ match, fetch }) {
-  const { id } = match.params;
+export default function WhiteLabel({ match, fetch, login }) {
+  const { id, token } = match.params;
 
   const { i18n } = useTranslation();
+
+  useEffect(() => {
+    login(token);
+  }, [login, token]);
 
   useEffect(() => {
     fetch(id);

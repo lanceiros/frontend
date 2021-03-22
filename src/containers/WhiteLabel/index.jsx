@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { wlFetchScreeningThunk } from '@store/ducks/prescriptions/thunk';
+import { wlLoginThunk } from '@store/ducks/auth/thunk';
 import WhiteLabel from '@components/WhiteLabel';
 
 const mapStateToProps = ({ prescriptions }) => ({
@@ -14,7 +15,8 @@ const mapStateToProps = ({ prescriptions }) => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      fetch: wlFetchScreeningThunk
+      fetch: wlFetchScreeningThunk,
+      login: wlLoginThunk
     },
     dispatch
   );

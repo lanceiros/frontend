@@ -148,13 +148,15 @@ export const fetchScreeningThunk = idPrescription => async (dispatch, getState) 
  * Fetch data for Screening page (WhiteLabel).
  * @param {number} idPrescription
  */
-export const wlFetchScreeningThunk = idPrescription => async dispatch => {
+export const wlFetchScreeningThunk = idPrescription => async (dispatch, getState) => {
   dispatch(prescriptionsFetchSingleStart());
 
+  const { auth } = getState();
+  const { access_token } = auth.wlIdentify;
   const {
     data: { data },
     error
-  } = await api.wlGetPrescriptionById(null, idPrescription).catch(errorHandler);
+  } = await api.getPrescriptionById(access_token, idPrescription).catch(errorHandler);
   if (!isEmpty(error)) {
     dispatch(prescriptionsFetchSingleError(error));
     return;

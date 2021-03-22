@@ -87,7 +87,7 @@ const routes = [
   },
   {
     exact: true,
-    path: '/wl/prescricao/:id',
+    path: '/wl/prescricao/:id/:token',
     component: WhiteLabel
   },
   {
